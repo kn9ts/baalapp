@@ -39,22 +39,30 @@ App.prototype = {
               }]
             });
           }
-          console.log(messages);
+          if (message) {
+            console.log(messages);
+            var sendTheseMessages = messages.map(function(msg, i) {
+              return {
+                'id': uuid.v4(),
+                'to': msg.farmer.phonenumber,
+                'message': msg.content
+              };
+            });
 
-          var sendTheseMessages = messages.map(function(msg, index) {
-            return {
-              'id': uuid.v4(),
-              'to': msg.farmer.phonenumber,
-              'message': msg.content
-            };
-          });
-
-          return res.status(200).json({
-            'events': [{
-              'event': 'send',
-              'messages': sendTheseMessages
-            }]
-          });
+            return res.status(200).json({
+              'events': [{
+                'event': 'send',
+                'messages': sendTheseMessages
+              }]
+            });
+          } else {
+            return res.json({
+              'events': [{
+                'event': 'log',
+                'message': 'No messages queued to send out'
+              }]
+            });
+          }
         });
     }
   }
