@@ -13,12 +13,21 @@ module.exports = function(router) {
       })
     })
     .post(function(req, res) {
-      res.status(200).json({
-        'events': [{
-          'event': 'log',
-          'message': "Recieved SMS from: " + req.body.from
-        }]
-      });
+      if (res.body.action == 'incoming') {
+        res.status(200).json({
+          'events': [{
+            'event': 'log',
+            'message': 'Recieved SMS from: ' + req.body.from
+          }]
+        });
+      } else {
+        res.status(200).json({
+          'events': [{
+            'event': 'log',
+            'message': 'A poll was made to the servers'
+          }]
+        });
+      }
     });
   return router;
 };
