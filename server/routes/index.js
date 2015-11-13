@@ -6,13 +6,19 @@ module.exports = function(router) {
   require('./actions')(router, controller.Actions);
 
   /* Test route for the API */
-  router.get('/', function(req, res) {
-    res.status(200).json({
-      'events': [{
-        'event': 'log',
-        'message': "Recieved SMS from: ".req.body.from
-      }]
+  router.route('/')
+    .get(function(req, res) {
+      res.json({
+        message: 'Api up and running!'
+      })
+    })
+    .post(function(req, res) {
+      res.status(200).json({
+        'events': [{
+          'event': 'log',
+          'message': "Recieved SMS from: ".req.body.from
+        }]
+      });
     });
-  });
   return router;
 };
