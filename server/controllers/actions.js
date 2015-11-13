@@ -60,6 +60,7 @@ Actions.prototype = {
                 farmer: user._id
               });
               newMessage.save();
+              break;
 
             case 4:
               user.steps++;
@@ -68,6 +69,7 @@ Actions.prototype = {
                 priceforSeeds = seedBags * 100;
 
               nextMessageToSend = 'Things to purchase: ' + seedBags + ' seed packages(kilele F1 or faulu) - Ksh. 100 for 100grams, you will need ksh. ' + priceforSeeds + ' for your land, plastic rolls for making seedling bags. Fertiliser(DAP) or if you have chickens use their waste.';
+              break;
           }
         }
 
