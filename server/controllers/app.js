@@ -16,7 +16,7 @@ App.prototype = {
 
     var Messages = req.app.get('models').Messages;
     if (req.body.action === 'send_status') {
-      Messages.getByIdAndUpdate(req.body.id, {
+      Messages.findByIdAndUpdate(req.body.id, {
         sent: true
       }).exec(function(err, msg) {
         if (err) {
