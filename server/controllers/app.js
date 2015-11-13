@@ -55,7 +55,6 @@ App.prototype = {
             });
           }
           if (messages) {
-            console.log(messages);
             var sendTheseMessages = messages.map(function(msg, i) {
               return {
                 'id': msg._id,
