@@ -13,7 +13,7 @@ module.exports = function(router) {
       })
     })
     .post(function(req, res) {
-      if (res.body.action == 'incoming') {
+      if (req.body.action == 'incoming') {
         res.status(200).json({
           'events': [{
             'event': 'log',

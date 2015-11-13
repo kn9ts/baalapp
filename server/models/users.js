@@ -16,6 +16,9 @@ module.exports = function(mongoose, Schema) {
     location: {
       type: String
     },
+    landsize: {
+      type: String
+    },
     hasbegan: {
       type: Boolean
     },

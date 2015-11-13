@@ -87,7 +87,7 @@ app.use(function(err, req, res, next) {
     return err.replace(/\s{2,}/g, ' ').trim();
   });
   res.json({
-    api: err,
+    status: res.status,
     url: req.originalUrl,
     error: err.message,
     stack: stack
