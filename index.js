@@ -1,5 +1,8 @@
 // load the applications environment
-require('dotenv').load();
+var env = process.env.NODE_ENV || 'development';
+if (env === 'development') {
+  require('dotenv').load();
+}
 
 var express = require('express'),
   app = express(),
