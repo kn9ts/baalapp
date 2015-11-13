@@ -1,11 +1,18 @@
 module.exports = function(router) {
   'use strict';
-  var controller = require('../controllers'),
-    auth = controller.App.authorise;
+  var controller = require('../controllers');
 
-  require('./route')(router, auth, controller.Users);
+  /* The API */
+  require('./actions')(router, controller.Actions);
 
-  /* GET the API status */
-  router.get('/', auth, controller.App.status);
+  /* Test route for the API */
+  router.get('/', function(req, res) {
+    res.status(200).json({
+      'events': [{
+        'event': 'log',
+        'message': "Recieved SMS from: ".req.body.from
+      }]
+    });
+  });
   return router;
 };
