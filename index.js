@@ -92,12 +92,15 @@ app.use(function(err, req, res, next) {
   var stack = err.stack.split(/\n/).map(function(err, index) {
     return err.replace(/\s{2,}/g, ' ').trim();
   });
-  res.json({
+
+  var detailedError = {
     status: res.status,
     url: req.originalUrl,
     error: err.message,
     stack: stack
-  });
+  };
+  console.error(detailedError);
+  res.json(detailedError);
 });
 
 var server = app.listen(process.env.PORT || 3000, function() {
