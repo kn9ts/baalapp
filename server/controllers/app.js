@@ -1,35 +1,61 @@
 'use strict';
 var jwt = require('jsonwebtoken'),
+  uuid = require('uuid'),
   App = function() {};
 
 App.prototype = {
   status: function(req, res) {
     return res.status(200).json({
-      message: 'Welcome to the document management CLI application'
+      message: 'Welcome to the Baal API'
     });
   },
-  authorise: function(req, res, next) {
-    // check header or url parameters or post parameters for token
-    var token = req.headers['x-access-token'];
-    // decode token
-    if (token && token !== 'null') {
-      // verifies secret and checks exp
-      jwt.verify(token, req.app.get('superSecret'), function(err, decoded) {
-        if (err) {
-          err = new Error('Failed to authenticate token.');
-          return next(err);
-        } else {
-          // if everything is good, save to request for use in other routes
-          req.decoded = decoded;
-          next();
-        }
+  filtrate: function(req, res, next) {
+    if (req.body.action === 'incoming') {
+      next();
+    }
+
+    if (req.body.action === 'send_status') {
+      var message = 'Message Id:' + req.body.id + ' was sent succesfully.';
+      return res.json({
+        'events': [{
+          'event': 'log',
+          'message': message
+        }]
       });
-    } else {
-      // if there is no token
-      // return an error
-      return res.status(401).send({
-        error: 'Unauthorised. No user is logged in.'
-      });
+    }
+
+    if (req.body.action === 'outgoing') {
+      var Messages = req.app.get('models').Messages;
+      Messages.where({
+          sent: false
+        })
+        .populate('farmer', '_id name.first phonenumber')
+        .exec(function(err, messages) {
+          if (err) {
+            return res.json({
+              'events': [{
+                'event': 'log',
+                'message': err.message
+              }]
+            });
+          }
+          console.log(messages);
+
+          var sendTheseMessages = messages.map(function(msg, index) {
+            return {
+              'id': uuid.v4(),
+              'to': msg.farmer.phonenumber,
+              'message': msg.content
+            };
+          });
+
+          return res.status(200).json({
+            'events': [{
+              'event': 'send',
+              'messages': sendTheseMessages
+            }]
+          });
+        });
     }
   }
 };
