@@ -14,18 +14,33 @@ App.prototype = {
       next();
     }
 
+    var Messages = req.app.get('models').Messages;
     if (req.body.action === 'send_status') {
-      var message = 'Message Id:' + req.body.id + ' was sent succesfully.';
-      return res.json({
-        'events': [{
-          'event': 'log',
-          'message': message
-        }]
+      Messages.getByIdAndUpdate(req.body.id, {
+        sent: true
+      }).exec(function(err, msg) {
+        if (err) {
+          return res.json({
+            'events': [{
+              'event': 'log',
+              'message': err.message
+            }]
+          });
+        }
+
+        if (msg) {
+          var message = 'Message Id:' + req.body.id + ' was sent succesfully.';
+          return res.json({
+            'events': [{
+              'event': 'log',
+              'message': message
+            }]
+          });
+        }
       });
     }
 
     if (req.body.action === 'outgoing') {
-      var Messages = req.app.get('models').Messages;
       Messages.where({
           sent: false
         })
@@ -43,7 +58,7 @@ App.prototype = {
             console.log(messages);
             var sendTheseMessages = messages.map(function(msg, i) {
               return {
-                'id': uuid.v4(),
+                'id': msg._id,
                 'to': msg.farmer.phonenumber,
                 'message': msg.content
               };
