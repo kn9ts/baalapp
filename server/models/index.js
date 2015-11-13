@@ -6,7 +6,8 @@ var mongoose = require('../config/database'),
 
 // load models
 var models = [
-  'users'
+  'users',
+  'messages'
 ];
 
 // add them to be exported in one go

@@ -3,6 +3,7 @@ var path = require('path'),
 
 // load controllers
 var controllers = [
+  'app',
   'actions',
 ];
 
