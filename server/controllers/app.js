@@ -39,7 +39,7 @@ App.prototype = {
               }]
             });
           }
-          if (message) {
+          if (messages) {
             console.log(messages);
             var sendTheseMessages = messages.map(function(msg, i) {
               return {
