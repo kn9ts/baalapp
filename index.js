@@ -72,6 +72,12 @@ app.options("*", function(req, res) {
 var apiRouter = express.Router();
 app.use('/api', routes(apiRouter, config));
 
+app.get('/', function(req, res, next) {
+  res.sendFile('index.html', {
+    root: './public/'
+  });
+});
+
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
   var err = new Error('Not Found');
