@@ -16,7 +16,7 @@ module.exports = function(router) {
       res.status(200).json({
         'events': [{
           'event': 'log',
-          'message': "Recieved SMS from: ".req.body.from
+          'message': "Recieved SMS from: " + req.body.from
         }]
       });
     });
