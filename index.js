@@ -1,5 +1,8 @@
 // load the applications environment
-require('dotenv').load();
+var env = process.env.NODE_ENV || 'development';
+if (env === 'development') {
+  require('dotenv').load();
+}
 
 var express = require('express'),
   app = express(),
@@ -92,9 +95,7 @@ app.use(function(err, req, res, next) {
 });
 
 var server = app.listen(process.env.PORT || 3000, function() {
-  // console.log('Express server listening on %d, in %s mode \n', 3000, app.get('env'));
-  var initVantage = require('./cli/commands');
-  initVantage(app);
+  console.log('Express server listening on %d, in %s mode \n', 3000, app.get('env'));
 });
 
 //expose app
