@@ -13,8 +13,12 @@ module.exports = function(mongoose, Schema) {
       lowercase: true,
       trim: true
     },
-    location: String,
-    hasbegan: Boolean,
+    location: {
+      type: String
+    },
+    hasbegan: {
+      type: Boolean
+    },
     steps: {
       type: Number,
       default: 0

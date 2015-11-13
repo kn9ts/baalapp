@@ -30,7 +30,9 @@ Actions.prototype = {
         // if all is cool sign them up
         user = new Users({
           phonenumber: req.body.from,
-          name: req.body.message.trim()
+          name: {
+            full: req.body.message.trim()
+          }
         });
 
         user.save(function(err) {
